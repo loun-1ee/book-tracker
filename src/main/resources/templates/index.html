@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내 책장</title>
+</head>
+<body>
+
+<h1>📚 내 책장</h1>
+
+<a href="/books/new">+ 책 추가</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>표지</th>
+            <th>제목</th>
+            <th>저자</th>
+            <th>출판사</th>
+            <th>상태</th>
+            <th>별점</th>
+            <th>한줄평</th>
+            <th>관리</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="book : ${books}">
+            <td><img th:src="${book.thumbnail}" width="50" th:if="${book.thumbnail}"/></td>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.publisher}"></td>
+            <td th:text="${book.status}"></td>
+            <td th:text="${book.rating}"></td>
+            <td th:text="${book.review}"></td>
+            <td>
+                <form th:action="@{/books/{id}delete(id=${book.id})}" method="post">
+                      <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
