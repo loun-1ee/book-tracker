@@ -5,10 +5,7 @@ import com.loun.booktracker.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +17,26 @@ public class BookController {
 
     //내 책장 (전체 조회)
     @GetMapping("/")
-    public String index(Model model) {
-        List<Book> books = bookService.findAll();
+    public String index(@RequestParam(required = false, defaultValue = "ALL") String status,
+                        @RequestParam(required = false) Integer rating,
+                        Model model) {
+        List<Book> books;
+
+        if ("ALL".equals(status)) {
+            books = bookService.findAll();
+        } else {
+            books = bookService.findByStatus(Book.ReadStatus.valueOf(status));
+        }
+
+        if ("DONE".equals(status) && rating != null) {
+            books = books.stream()
+                    .filter(b -> rating.equals(b.getRating()))
+                    .collect(java.util.stream.Collectors.toList());
+        }
+
         model.addAttribute("books", books);
+        model.addAttribute("status", status);
+        model.addAttribute("rating", rating);
         return "index";
     }
 
@@ -64,5 +78,13 @@ public class BookController {
         existing.setMemo(book.getMemo());
         bookService.save(existing);
         return "redirect:/";
+    }
+
+    //상세 조회
+    @GetMapping("/books/{id}")
+    public String detail(@PathVariable Long id, Model model) {
+        Book book = bookService.findById(id);
+        model.addAttribute("book", book);
+        return "book-detail";
     }
 }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${book.title}">책 상세</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #F3E4C9;
+            font-family: 'Georgia', serif;
+            color: #3d2b1f;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #A98B76;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        .card {
+            background: #FFFDF7;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(101, 67, 33, 0.1);
+        }
+
+        .book-header {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .book-header img {
+            width: 100px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .book-header .no-image {
+            width: 100px;
+            height: 140px;
+            background: #e8ddd0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a08060;
+            font-size: 12px;
+        }
+
+        .book-info h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .book-info p {
+            color: #BFA28C;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #BABF94;
+            color: #FFFDF7;
+        }
+
+        .badge.rating {
+            background: #BFA28C;
+            color: #FFFDF7;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #BFA28C;
+            margin: 24px 0;
+        }
+
+        .memo-section h2 {
+            font-size: 16px;
+            color: #A98B76;
+            margin-bottom: 12px;
+        }
+
+        .memo-content {
+            line-height: 1.9;
+            font-size: 15px;
+            white-space: pre-wrap;
+            color: #3d2b1f;
+        }
+
+        .no-memo {
+            color: #BFA28C;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #A98B76;
+            color: white;
+        }
+
+        .btn-primary:hover { background: #BFA28C; }
+
+        .btn-danger {
+            background: #F3E4C9;
+            color: #A98B76;
+        }
+
+        .btn-danger:hover { background: #BFA28C; color: white; }
+
+        .no-image {
+            width: 100px;
+            height: 140px;
+            background: #BFA28C;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFDF7;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" class="back-link">← 내 책장으로</a>
+
+    <div class="card">
+        <div class="book-header">
+            <img th:if="${book.thumbnail}" th:src="${book.thumbnail}"/>
+            <div class="no-image" th:unless="${book.thumbnail}">표지 없음</div>
+            <div class="book-info">
+                <h1 th:text="${book.title}"></h1>
+                <p th:text="${book.author}"></p>
+                <p th:text="${book.publisher}"></p>
+                <div class="badges">
+                    <span class="badge" th:text="${book.status == 'WANT'} ? '읽고 싶어요' : (${book.status == 'READING'} ? '읽는 중' : '다 읽었어요')"></span>
+                    <span class="badge rating" th:if="${book.rating}">
+                        <th:block th:each="i : ${#numbers.sequence(1, book.rating)}">⭐</th:block>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="memo-section">
+            <h2>📝 메모</h2>
+            <p class="memo-content" th:if="${book.memo}" th:text="${book.memo}"></p>
+            <p class="no-memo" th:unless="${book.memo}">아직 메모가 없어요.</p>
+        </div>
+
+        <div class="actions">
+            <a th:href="@{/books/{id}/edit(id=${book.id})}" class="btn btn-primary">✏️ 수정</a>
+            <form th:action="@{/books/{id}/delete(id=${book.id})}" method="post" style="margin:0">
+                <button type="submit" class="btn btn-danger">🗑️ 삭제</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

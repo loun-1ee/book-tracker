@@ -2,45 +2,230 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>책 수정</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #F3E4C9;
+            font-family: 'Georgia', serif;
+            color: #3d2b1f;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #A98B76;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        .card {
+            background: #FFFDF7;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(101, 67, 33, 0.1);
+        }
+
+        .book-header {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .book-header img {
+            width: 100px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .no-image {
+            width: 100px;
+            height: 140px;
+            background: #BFA28C;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFDF7;
+            font-size: 12px;
+        }
+
+        .book-info h1 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .book-info p {
+            color: #BFA28C;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #BFA28C;
+            margin: 24px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #A98B76;
+            margin-bottom: 8px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #BFA28C;
+            border-radius: 8px;
+            background: #F3E4C9;
+            color: #3d2b1f;
+            font-family: 'Georgia', serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        select:focus, textarea:focus {
+            border-color: #A98B76;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 200px;
+            line-height: 1.8;
+        }
+
+        /* 별점 */
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 32px;
+            color: #BFA28C;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #BABF94;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: 'Georgia', serif;
+        }
+
+        .btn-primary {
+            background: #A98B76;
+            color: white;
+        }
+
+        .btn-primary:hover { background: #BFA28C; }
+
+        .btn-cancel {
+            background: #F3E4C9;
+            color: #A98B76;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-cancel:hover { background: #BFA28C; color: white; }
+    </style>
 </head>
 <body>
+<div class="container">
+    <a th:href="@{/books/{id}(id=${book.id})}" class="back-link">← 돌아가기</a>
 
-<h1>✏️ 책 수정</h1>
+    <div class="card">
+        <div class="book-header">
+            <img th:if="${book.thumbnail}" th:src="${book.thumbnail}"/>
+            <div class="no-image" th:unless="${book.thumbnail}">표지 없음</div>
+            <div class="book-info">
+                <h1 th:text="${book.title}"></h1>
+                <p th:text="${book.author}"></p>
+                <p th:text="${book.publisher}"></p>
+            </div>
+        </div>
 
-<div>
-    <img th:src="${book.thumbnail}" width="80" th:if="${book.thumbnail}"/>
-    <h2 th:text="${book.title}"></h2>
-    <p th:text="${book.author}"></p>
-    <p th:text="${book.publisher}"></p>
+        <hr class="divider"/>
+
+        <form th:action="@{/books/{id}/edit(id=${book.id})}" th:object="${book}" method="post">
+
+            <div class="form-group">
+                <label>독서 상태</label>
+                <select th:field="*{status}">
+                    <option value="WANT">읽고 싶어요</option>
+                    <option value="READING">읽는 중</option>
+                    <option value="DONE">다 읽었어요</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>별점</label>
+                <div class="star-rating">
+                    <input type="radio" th:field="*{rating}" value="5" id="star5"/>
+                    <label for="star5">★</label>
+                    <input type="radio" th:field="*{rating}" value="4" id="star4"/>
+                    <label for="star4">★</label>
+                    <input type="radio" th:field="*{rating}" value="3" id="star3"/>
+                    <label for="star3">★</label>
+                    <input type="radio" th:field="*{rating}" value="2" id="star2"/>
+                    <label for="star2">★</label>
+                    <input type="radio" th:field="*{rating}" value="1" id="star1"/>
+                    <label for="star1">★</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>메모</label>
+                <textarea th:field="*{memo}" placeholder="독후감, 인용구, 느낀점 자유롭게 작성하세요"></textarea>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">저장</button>
+                <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-cancel">취소</a>
+            </div>
+
+        </form>
+    </div>
 </div>
-
-<form th:action="@{/books/{id}/edit(id=${book.id})}" th:object="${book}" method="post">
-
-    <div>
-        <label>독서 상태</label>
-        <select th:field="*{status}">
-            <option value="WANT">읽고 싶어요</option>
-            <option value="READING">읽는 중</option>
-            <option value="DONE">다 읽었어요</option>
-        </select>
-    </div>
-
-    <div>
-        <label>별점</label>
-        <input type="number" th:field="*{rating}" min="1" max="5"/>
-    </div>
-
-    <div>
-        <label>메모</label>
-        <textarea th:field="*{memo}" rows="10" cols="50"
-                  placeholder="독후감, 인용구, 느낀점 자유롭게 작성하세요"></textarea>
-    </div>
-
-    <button type="submit">저장</button>
-    <a href="/">취소</a>
-
-</form>
-
 </body>
 </html>

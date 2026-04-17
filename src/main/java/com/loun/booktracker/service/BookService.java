@@ -23,7 +23,12 @@ public class BookService {
                 .orElseThrow(() -> new IllegalArgumentException("책을 찾을 수 없어요. id=" + id));
     }
 
-    // 저장
+    //탭
+    public List<Book> findByStatus(Book.ReadStatus status) {
+        return bookRepository.findByStatus(status);
+    }
+
+    //저장
     public Book save(Book book) {
         return bookRepository.save(book);
     }
