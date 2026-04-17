@@ -46,4 +46,23 @@ public class BookController {
         bookService.delete(id);
         return "redirect:/";
     }
+
+    //수정 폼
+    @GetMapping("/books/{id}/edit")
+    public String editBookForm(@PathVariable Long id, Model model) {
+        Book book = bookService.findById(id);
+        model.addAttribute("book", book);
+        return "book-edit";
+    }
+
+    //수정 저장
+    @PostMapping("books/{id}/edit")
+    public String editBook(@PathVariable Long id, @ModelAttribute Book book) {
+        Book existing = bookService.findById(id);
+        existing.setStatus(book.getStatus());
+        existing.setRating(book.getRating());
+        existing.setMemo(book.getMemo());
+        bookService.save(existing);
+        return "redirect:/";
+    }
 }

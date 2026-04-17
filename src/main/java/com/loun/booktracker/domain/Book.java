@@ -20,7 +20,9 @@ public class Book {
     private ReadStatus status; //독서 상태
 
     private Integer rating; //별점 (1~5)
-    private String review; //한줄평
+
+    @Column(columnDefinition = "TEXT")
+    private String memo; //메모
 
     public enum ReadStatus {
         WANT, //읽고 싶은 책
