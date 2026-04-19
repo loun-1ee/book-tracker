@@ -2,51 +2,213 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>책 추가</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>직접 추가</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #F3E4C9;
+            font-family: 'Georgia', serif;
+            color: #3d2b1f;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #A98B76;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 28px;
+            color: #3d2b1f;
+        }
+
+        .card {
+            background: #FFFDF7;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(101, 67, 33, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #A98B76;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #BFA28C;
+            border-radius: 8px;
+            background: #F3E4C9;
+            color: #3d2b1f;
+            font-family: 'Georgia', serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #A98B76;
+        }
+
+        /* 별점 */
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
+        .star-rating input { display: none; }
+
+        .star-rating label {
+            font-size: 32px;
+            color: #BFA28C;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #BABF94;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            font-family: 'Georgia', serif;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #A98B76;
+            color: white;
+        }
+
+        .btn-primary:hover { background: #BFA28C; }
+
+        .btn-cancel {
+            background: #F3E4C9;
+            color: #A98B76;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-cancel:hover { background: #BFA28C; color: white; }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #BFA28C;
+            margin: 24px 0;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #BFA28C;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 20px; }
+            .card { padding: 20px; }
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <a href="/" class="back-link">← 내 책장으로</a>
+    <h1>📝 직접 추가</h1>
 
-<h1>📖 책 추가</h1>
+    <div class="card">
+        <form th:action="@{/books}" th:object="${book}" method="post">
 
-<form th:action="@{/books}" th:object="${book}" method="post">
+            <div class="form-group">
+                <label>제목 *</label>
+                <input type="text" th:field="*{title}" placeholder="책 제목"/>
+            </div>
 
-    <div>
-        <label>제목</label>
-        <input type="text" th:field="*{title}"/>
-    </div>
-    <div>
-        <label>저자</label>
-        <input type="text" th:field="*{author}">
-    </div>
-    <div>
-        <label>출판사</label>
-        <input type="text" th:field="*{publisher}">
-    </div>
-    <div>
-        <label>표지 이미지 URL</label>
-        <input type="text" th:field="*{thumbnail}">
-    </div>
-    <div>
-        <label>독서 상태</label>
-        <select th:field="*{status}">
-            <option value="WANT">읽고 싶은 책</option>
-            <option value="READING">읽고 있는 책</option>
-            <option value="DONE">다 읽은 책</option>
-        </select>
-    </div>
-    <div>
-        <label>별점</label>
-        <input type="number" th:field="*{rating}" min="1" max="5"/>
-    </div>
-    <div>
-        <label>한줄평</label>
-        <input type="text" th:field="*{memo}"/>
-    </div>
+            <div class="form-group">
+                <label>저자</label>
+                <input type="text" th:field="*{author}" placeholder="저자명"/>
+            </div>
 
-    <button type="submit">저장</button>
-    <a href="/">취소</a>
+            <div class="form-group">
+                <label>출판사</label>
+                <input type="text" th:field="*{publisher}" placeholder="출판사명"/>
+            </div>
 
-</form>
+            <div class="form-group">
+                <label>표지 이미지 URL</label>
+                <input type="text" th:field="*{thumbnail}" placeholder="이미지 URL"/>
+                <p class="hint">교보문고 등에서 표지 이미지 주소 복사해서 붙여넣기</p>
+            </div>
 
+            <hr class="divider"/>
+
+            <div class="form-group">
+                <label>독서 상태</label>
+                <select th:field="*{status}">
+                    <option value="WANT">읽고 싶어요</option>
+                    <option value="READING">읽는 중</option>
+                    <option value="DONE">다 읽었어요</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>별점</label>
+                <div class="star-rating">
+                    <input type="radio" th:field="*{rating}" value="5" id="star5"/>
+                    <label for="star5">★</label>
+                    <input type="radio" th:field="*{rating}" value="4" id="star4"/>
+                    <label for="star4">★</label>
+                    <input type="radio" th:field="*{rating}" value="3" id="star3"/>
+                    <label for="star3">★</label>
+                    <input type="radio" th:field="*{rating}" value="2" id="star2"/>
+                    <label for="star2">★</label>
+                    <input type="radio" th:field="*{rating}" value="1" id="star1"/>
+                    <label for="star1">★</label>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">저장</button>
+                <a href="/" class="btn btn-cancel">취소</a>
+            </div>
+
+        </form>
+    </div>
+</div>
 </body>
 </html>
