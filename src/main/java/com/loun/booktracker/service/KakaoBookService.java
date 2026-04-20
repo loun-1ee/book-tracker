@@ -3,7 +3,6 @@ package com.loun.booktracker.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Service
 public class KakaoBookService {
@@ -15,7 +14,7 @@ public class KakaoBookService {
 
     public KakaoBookService() {
         this.webClient = WebClient.builder()
-                .baseUrl("http://dapi.kakao.com")
+                .baseUrl("https://dapi.kakao.com")
                 .build();
     }
 

@@ -187,6 +187,21 @@
             </div>
 
             <div class="form-group">
+                <label>장르</label>
+                <select th:field="*{genre}">
+                    <option value="">선택 안 함</option>
+                    <option value="NOVEL">소설</option>
+                    <option value="SELF_DEV">자기계발</option>
+                    <option value="ECONOMY">경제/경영</option>
+                    <option value="HUMANITIES">인문학</option>
+                    <option value="SCIENCE">과학</option>
+                    <option value="HISTORY">역사</option>
+                    <option value="ART">예술</option>
+                    <option value="OTHER">기타</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label>별점</label>
                 <div class="star-rating">
                     <input type="radio" th:field="*{rating}" value="5" id="star5"/>

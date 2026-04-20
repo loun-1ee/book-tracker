@@ -89,7 +89,7 @@
             margin-bottom: 8px;
         }
 
-        select, textarea {
+        select, textarea, input[type="date"] {
             width: 100%;
             padding: 10px 14px;
             border: 1px solid #BFA28C;
@@ -212,6 +212,26 @@
                     <input type="radio" th:field="*{rating}" value="1" id="star1"/>
                     <label for="star1">★</label>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label>장르</label>
+                <select th:field="*{genre}">
+                    <option value="">선택 안 함</option>
+                    <option value="NOVEL">소설</option>
+                    <option value="SELF_DEV">자기계발</option>
+                    <option value="ECONOMY">경제/경영</option>
+                    <option value="HUMANITIES">인문학</option>
+                    <option value="SCIENCE">과학</option>
+                    <option value="HISTORY">역사</option>
+                    <option value="ART">예술</option>
+                    <option value="OTHER">기타</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>완독일</label>
+                <input type="date" th:field="*{addedDate}"/>
             </div>
 
             <div class="form-group">

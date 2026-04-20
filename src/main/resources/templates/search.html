@@ -185,6 +185,20 @@
                     <input type="hidden" name="publisher" th:value="${book['publisher']}"/>
                     <input type="hidden" name="thumbnail" th:value="${book['thumbnail']}"/>
                     <input type="hidden" name="status" value="WANT"/>
+                    <select name="genre" style="width:100%; padding:6px 10px; margin-bottom:8px;
+            border:1px solid #BFA28C; border-radius:8px;
+            background:#F3E4C9; color:#3d2b1f;
+            font-family:'Georgia',serif; font-size:12px;">
+                        <option value="">장르 선택</option>
+                        <option value="NOVEL">소설</option>
+                        <option value="SELF_DEV">자기계발</option>
+                        <option value="ECONOMY">경제/경영</option>
+                        <option value="HUMANITIES">인문학</option>
+                        <option value="SCIENCE">과학</option>
+                        <option value="HISTORY">역사</option>
+                        <option value="ART">예술</option>
+                        <option value="OTHER">기타</option>
+                    </select>
                     <button type="submit" class="add-btn">+ 담기</button>
                 </form>
             </div>

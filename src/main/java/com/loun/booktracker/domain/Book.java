@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter @Setter
 public class Book {
@@ -29,4 +31,20 @@ public class Book {
         READING, //읽는 중인 책
         DONE //다 읽은 책
     }
+
+    private LocalDate addedDate;    // 책 추가한 날짜 (자동 기록)
+
+    public enum Genre {
+        NOVEL,          // 소설
+        SELF_DEV,       // 자기계발
+        ECONOMY,        // 경제/경영
+        HUMANITIES,     // 인문학
+        SCIENCE,        // 과학
+        HISTORY,        // 역사
+        ART,            // 예술
+        OTHER           // 기타
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
 }

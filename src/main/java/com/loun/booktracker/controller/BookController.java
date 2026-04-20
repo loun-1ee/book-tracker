@@ -76,6 +76,8 @@ public class BookController {
         existing.setStatus(book.getStatus());
         existing.setRating(book.getRating());
         existing.setMemo(book.getMemo());
+        existing.setGenre(book.getGenre());
+        existing.setAddedDate(book.getAddedDate());
         bookService.save(existing);
         return "redirect:/";
     }
