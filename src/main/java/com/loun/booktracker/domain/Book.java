@@ -42,6 +42,7 @@ public class Book {
         SCIENCE,        // 과학
         HISTORY,        // 역사
         ART,            // 예술
+        IT,             // IT/개발
         OTHER           // 기타
     }
 

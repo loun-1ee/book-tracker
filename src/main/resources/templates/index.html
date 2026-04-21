@@ -231,7 +231,7 @@
             <div class="card-body">
                 <span class="card-title" th:text="${book.title}"></span>
                 <span class="card-status"
-                      th:text="${book.status == 'WANT'} ? '읽고 싶어요' : (${book.status == 'READING'} ? '읽는 중' : '다 읽었어요')">
+                      th:text="${book.status.name() == 'WANT'} ? '읽고 싶어요' : (${book.status.name() == 'READING'} ? '읽는 중' : '다 읽었어요')">
                 </span>
             </div>
         </a>

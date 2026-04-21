@@ -50,8 +50,8 @@ public class BookController {
     //책 저장
     @PostMapping("/books")
     public String saveBook(@ModelAttribute Book book) {
-        bookService.save(book);
-        return "redirect:/";
+        Book saved = bookService.save(book);
+        return "redirect:/books/" + saved.getId() + "/edit";
     }
 
     //책 삭제
@@ -70,7 +70,7 @@ public class BookController {
     }
 
     //수정 저장
-    @PostMapping("books/{id}/edit")
+    @PostMapping("/books/{id}/edit")
     public String editBook(@PathVariable Long id, @ModelAttribute Book book) {
         Book existing = bookService.findById(id);
         existing.setStatus(book.getStatus());
