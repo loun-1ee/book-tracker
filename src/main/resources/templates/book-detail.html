@@ -177,15 +177,7 @@
                         <th:block th:each="i : ${#numbers.sequence(1, book.rating)}">⭐</th:block>
                     </span>
                     <span class="badge" th:if="${book.addedDate}" th:text="'📅 ' + ${#temporals.format(book.addedDate, 'yyyy.MM.dd')}"></span>
-                    <span class="badge" th:if="${book.genre != null}"
-                          th:text="${book.genre.name() == 'NOVEL'} ? '소설' :
-                      (${book.genre.name() == 'SELF_DEV'} ? '자기계발' :
-                      (${book.genre.name() == 'ECONOMY'} ? '경제/경영' :
-                     (${book.genre.name() == 'HUMANITIES'} ? '인문학' :
-                     (${book.genre.name() == 'SCIENCE'} ? '과학' :
-                     (${book.genre.name() == 'HISTORY'} ? '역사' :
-                     (${book.genre.name() == 'ART'} ? '예술' : '기타'))))))">
-                    </span>
+                    <span class="badge" th:if="${book.genre != null}" th:text="${book.genre.label}"></span>
                 </div>
 
             </div>

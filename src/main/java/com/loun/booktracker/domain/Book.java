@@ -35,15 +35,25 @@ public class Book {
     private LocalDate addedDate;    // 책 추가한 날짜 (자동 기록)
 
     public enum Genre {
-        NOVEL,          // 소설
-        SELF_DEV,       // 자기계발
-        ECONOMY,        // 경제/경영
-        HUMANITIES,     // 인문학
-        SCIENCE,        // 과학
-        HISTORY,        // 역사
-        ART,            // 예술
-        IT,             // IT/개발
-        OTHER           // 기타
+        NOVEL("소설"),
+        SELF_DEV("자기계발"),
+        ECONOMY("경제/경영"),
+        HUMANITIES("인문학"),
+        SCIENCE("과학"),
+        HISTORY("역사"),
+        ART("예술"),
+        IT("IT"),
+        OTHER("기타");
+
+        private final String label;
+
+        Genre(String label) {
+            this.label = label;
+        }
+
+        public String getLabel() {
+            return label;
+        }
     }
 
     @Enumerated(EnumType.STRING)
